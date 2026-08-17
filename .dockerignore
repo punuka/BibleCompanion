@@ -1,0 +1,32 @@
+node_modules/
+**/node_modules/
+.env
+apps/api/.env
+apps/mobile/.env
+*.log
+
+# Prisma / SQLite — the container gets a fresh db via the release volume,
+# never the local dev one.
+*.db
+*.db-journal
+apps/api/prisma/dev.db*
+apps/api/prisma/test.db*
+
+# Build output — rebuilt inside the image.
+packages/shared/dist/
+dist/
+build/
+
+# Not needed to build or run the API.
+apps/mobile/android/
+apps/mobile/ios/
+apps/mobile/.expo/
+.expo/
+.expo-shared/
+web-build/
+
+.git/
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

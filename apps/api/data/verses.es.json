@@ -1,0 +1,46 @@
+[
+  { "ref": "Salmos 23:1", "book": "Salmos", "chapter": 23, "verse": 1, "text": "Jehová es mi pastor; nada me faltará.", "themes": ["comfort", "provision", "trust"] },
+  { "ref": "Salmos 23:4", "book": "Salmos", "chapter": 23, "verse": 4, "text": "Aunque ande en valle de sombra de muerte, no temeré mal alguno, porque tú estarás conmigo; tu vara y tu cayado me infundirán aliento.", "themes": ["comfort", "fear", "presence", "mourning"] },
+  { "ref": "Salmos 34:18", "book": "Salmos", "chapter": 34, "verse": 18, "text": "Cercano está Jehová a los quebrantados de corazón; y salvará a los contritos de espíritu.", "themes": ["comfort", "mourning", "presence"] },
+  { "ref": "Salmos 46:1", "book": "Salmos", "chapter": 46, "verse": 1, "text": "Dios es nuestro amparo y fortaleza, nuestro pronto auxilio en las tribulaciones.", "themes": ["strength", "fear", "presence"] },
+  { "ref": "Salmos 55:22", "book": "Salmos", "chapter": 55, "verse": 22, "text": "Echa sobre Jehová tu carga, y él te sustentará; no dejará para siempre caído al justo.", "themes": ["trust", "endurance", "comfort"] },
+  { "ref": "Salmos 103:12", "book": "Salmos", "chapter": 103, "verse": 12, "text": "Cuanto está lejos el oriente del occidente, hizo alejar de nosotros nuestras rebeliones.", "themes": ["forgiveness", "grace", "mercy"] },
+  { "ref": "Salmos 121:2", "book": "Salmos", "chapter": 121, "verse": 2, "text": "Mi socorro viene de Jehová, que hizo los cielos y la tierra.", "themes": ["trust", "strength", "provision"] },
+  { "ref": "Salmos 126:5", "book": "Salmos", "chapter": 126, "verse": 5, "text": "Los que sembraron con lágrimas, con regocijo segarán.", "themes": ["mourning", "hope", "joy"] },
+  { "ref": "Salmos 147:3", "book": "Salmos", "chapter": 147, "verse": 3, "text": "Él sana a los quebrantados de corazón, y venda sus heridas.", "themes": ["healing", "comfort", "mourning"] },
+
+  { "ref": "Isaías 40:31", "book": "Isaías", "chapter": 40, "verse": 31, "text": "Pero los que esperan a Jehová tendrán nuevas fuerzas; levantarán alas como las águilas; correrán, y no se cansarán; caminarán, y no se fatigarán.", "themes": ["strength", "hope", "endurance"] },
+  { "ref": "Isaías 41:10", "book": "Isaías", "chapter": 41, "verse": 10, "text": "No temas, porque yo estoy contigo; no desmayes, porque yo soy tu Dios que te esfuerzo; siempre te ayudaré, siempre te sustentaré con la diestra de mi justicia.", "themes": ["fear", "strength", "presence"] },
+  { "ref": "Isaías 43:2", "book": "Isaías", "chapter": 43, "verse": 2, "text": "Cuando pases por las aguas, yo estaré contigo; y si por los ríos, no te anegarán. Cuando pases por el fuego, no te quemarás, ni la llama arderá en ti.", "themes": ["fear", "presence", "endurance"] },
+
+  { "ref": "Jeremías 29:11", "book": "Jeremías", "chapter": 29, "verse": 11, "text": "Porque yo sé los pensamientos que tengo acerca de vosotros, dice Jehová, pensamientos de paz, y no de mal, para daros el fin que esperáis.", "themes": ["hope", "guidance", "calling"] },
+
+  { "ref": "Lamentaciones 3:23", "book": "Lamentaciones", "chapter": 3, "verse": 23, "text": "Nuevas son cada mañana; grande es tu fidelidad.", "themes": ["hope", "mercy", "trust"] },
+
+  { "ref": "Josué 1:9", "book": "Josué", "chapter": 1, "verse": 9, "text": "Mira que te mando que te esfuerces y seas valiente; no temas ni desmayes, porque Jehová tu Dios estará contigo dondequiera que vayas.", "themes": ["fear", "strength", "presence"] },
+
+  { "ref": "Proverbios 3:5", "book": "Proverbios", "chapter": 3, "verse": 5, "text": "Fíate de Jehová de todo tu corazón, y no estribes en tu prudencia.", "themes": ["trust", "wisdom", "guidance"] },
+
+  { "ref": "Mateo 5:4", "book": "Mateo", "chapter": 5, "verse": 4, "text": "Bienaventurados los que lloran, porque ellos recibirán consolación.", "themes": ["mourning", "comfort", "hope"] },
+  { "ref": "Mateo 11:28", "book": "Mateo", "chapter": 11, "verse": 28, "text": "Venid a mí todos los que estáis trabajados y cargados, que yo os haré descansar.", "themes": ["comfort", "peace", "endurance"] },
+
+  { "ref": "Juan 14:27", "book": "Juan", "chapter": 14, "verse": 27, "text": "La paz os dejo, mi paz os doy; no como el mundo la da, yo os la doy. No se turbe vuestro corazón, ni tenga miedo.", "themes": ["peace", "fear", "comfort"] },
+  { "ref": "Juan 16:33", "book": "Juan", "chapter": 16, "verse": 33, "text": "Estas cosas os he hablado, para que en mí tengáis paz. En el mundo tendréis aflicción; mas confiad, yo he vencido al mundo.", "themes": ["peace", "endurance", "hope"] },
+
+  { "ref": "Romanos 8:28", "book": "Romanos", "chapter": 8, "verse": 28, "text": "Y sabemos que a los que a Dios aman, todas las cosas les ayudan a bien, es a saber, a los que conforme al propósito son llamados.", "themes": ["hope", "trust", "calling"] },
+  { "ref": "Romanos 8:39", "book": "Romanos", "chapter": 8, "verse": 39, "text": "Ni lo alto, ni lo bajo, ni ninguna criatura nos podrá apartar del amor de Dios, que es en Cristo Jesús Señor nuestro.", "themes": ["love", "belonging", "presence"] },
+  { "ref": "Romanos 15:13", "book": "Romanos", "chapter": 15, "verse": 13, "text": "Y el Dios de esperanza os llene de todo gozo y paz creyendo, para que abundéis en esperanza por la virtud del Espíritu Santo.", "themes": ["hope", "joy", "peace"] },
+
+  { "ref": "2 Corintios 1:4", "book": "2 Corintios", "chapter": 1, "verse": 4, "text": "El cual nos consuela en todas nuestras tribulaciones, para que podamos también nosotros consolar a los que están en cualquier angustia.", "themes": ["comfort", "mourning", "belonging"] },
+  { "ref": "2 Corintios 12:9", "book": "2 Corintios", "chapter": 12, "verse": 9, "text": "Y me ha dicho: Bástate mi gracia; porque mi potencia en la flaqueza se perfecciona.", "themes": ["grace", "strength", "endurance"] },
+
+  { "ref": "Filipenses 4:6", "book": "Filipenses", "chapter": 4, "verse": 6, "text": "Por nada estéis afanosos; sino sean notorias vuestras peticiones delante de Dios en toda oración y ruego, con hacimiento de gracias.", "themes": ["fear", "peace", "thanksgiving"] },
+  { "ref": "Filipenses 4:7", "book": "Filipenses", "chapter": 4, "verse": 7, "text": "Y la paz de Dios, que sobrepuja todo entendimiento, guardará vuestros corazones y vuestros entendimientos en Cristo Jesús.", "themes": ["peace", "comfort", "trust"] },
+  { "ref": "Filipenses 4:13", "book": "Filipenses", "chapter": 4, "verse": 13, "text": "Todo lo puedo en Cristo que me fortalece.", "themes": ["strength", "endurance", "work"] },
+
+  { "ref": "1 Pedro 5:7", "book": "1 Pedro", "chapter": 5, "verse": 7, "text": "Echando toda vuestra solicitud en él, porque él tiene cuidado de vosotros.", "themes": ["fear", "trust", "comfort"] },
+
+  { "ref": "1 Juan 1:9", "book": "1 Juan", "chapter": 1, "verse": 9, "text": "Si confesamos nuestros pecados, él es fiel y justo para que nos perdone nuestros pecados, y nos limpie de toda maldad.", "themes": ["forgiveness", "grace", "mercy"] },
+
+  { "ref": "Apocalipsis 21:4", "book": "Apocalipsis", "chapter": 21, "verse": 4, "text": "Y limpiará Dios toda lágrima de los ojos de ellos; y la muerte no será más; y no habrá más llanto, ni clamor, ni dolor.", "themes": ["mourning", "hope", "healing"] }
+]

@@ -1,0 +1,29 @@
+{
+  "name": "bible-companion",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Cross-platform Bible companion: multilingual AI Bible chat, situation-based comfort, and approved spiritual counsellors.",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build:shared": "npm run build -w packages/shared",
+    "dev:api": "npm run build:shared && npm run dev -w apps/api",
+    "dev:mobile": "npm run dev -w apps/mobile",
+    "setup": "npm install && npm run build:shared && npm run db:setup -w apps/api",
+    "typecheck": "npm run typecheck -w packages/shared && npm run typecheck -w apps/api && npm run typecheck -w apps/mobile",
+    "test": "npm run test -w apps/api"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "allowScripts": {
+    "@prisma/client@6.19.3": true,
+    "@prisma/engines@6.19.3": true,
+    "esbuild@0.28.1": true,
+    "prisma@6.19.3": true,
+    "@google/genai@2.16.0": true,
+    "protobufjs@7.6.5": true
+  }
+}

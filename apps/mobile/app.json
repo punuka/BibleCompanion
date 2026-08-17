@@ -1,0 +1,34 @@
+{
+  "expo": {
+    "name": "Bible Companion",
+    "slug": "bible-companion",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "scheme": "biblecompanion",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.example.biblecompanion",
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "Used to record voice messages that are transcribed for chat and comfort."
+      }
+    },
+    "android": {
+      "package": "com.example.biblecompanion",
+      "adaptiveIcon": {
+        "backgroundColor": "#1B1A17"
+      },
+      "edgeToEdgeEnabled": true,
+      "permissions": ["RECORD_AUDIO"]
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single"
+    },
+    "plugins": ["expo-router"],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

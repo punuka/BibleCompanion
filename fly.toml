@@ -1,0 +1,42 @@
+# Replace `app` below with the unique name you registered with
+# `fly apps create <name>`, then run `fly deploy`.
+app = "bible-companion-api"
+primary_region = "iad"
+
+[build]
+
+[env]
+  PORT = "8787"
+  HOST = "0.0.0.0"
+  NODE_ENV = "production"
+  # SQLite file lives on the persistent volume mounted below, so it survives
+  # deploys and restarts.
+  DATABASE_URL = "file:/data/dev.db"
+  # Add your phone/browser origins here if you ever call this from a browser;
+  # native app requests don't send an Origin header and are unaffected.
+  CORS_ORIGINS = "http://localhost:8081,http://localhost:19006"
+
+# GEMINI_API_KEY and JWT_SECRET are secrets, not plain env vars — set them
+# with `fly secrets set GEMINI_API_KEY=... JWT_SECRET=...`, never committed
+# here.
+
+[[mounts]]
+  source = "data"
+  destination = "/data"
+
+[http_service]
+  internal_port = 8787
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+  # Chat responses stream over SSE — a long-lived connection must not be
+  # torn down as "idle".
+  [http_service.concurrency]
+    type = "requests"
+    hard_limit = 25
+    soft_limit = 20
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"

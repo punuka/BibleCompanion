@@ -1,0 +1,147 @@
+// Switching to Postgres in production is a two-line change: set
+// provider = "postgresql" here and change DATABASE_URL. No query code changes —
+// list/object fields are stored as JSON strings (see src/lib/json.ts) precisely
+// so the schema is provider-portable.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  displayName  String
+  role         String   @default("USER") // USER | COUNSELOR | ADMIN
+  language     String   @default("en")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  conversations    Conversation[]
+  comfortSessions  ComfortSession[]
+  counselorProfile CounselorProfile?
+  connections      Connection[]
+  sentMessages     ConnectionMessage[]
+
+  @@index([role])
+}
+
+model Conversation {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String   @default("New conversation")
+  language  String   @default("en")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages Message[]
+
+  @@index([userId, updatedAt])
+}
+
+model Message {
+  id             String   @id @default(cuid())
+  conversationId String
+  role           String // "user" | "assistant"
+  content        String
+  citations      String   @default("[]") // JSON array of Citation
+  createdAt      DateTime @default(now())
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId, createdAt])
+}
+
+model ComfortSession {
+  id              String   @id @default(cuid())
+  userId          String
+  situation       String? // Situation.id from @bible/shared, or null for free text
+  input           String
+  acknowledgement String
+  reflection      String
+  prayer          String
+  verses          String   @default("[]") // JSON array of Citation
+  followUp        String   @default("[]") // JSON array of string
+  safety          String? // JSON SafetyNotice, present only when triggered
+  createdAt       DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+}
+
+model Verse {
+  id          String @id @default(cuid())
+  ref         String // canonical "John 14:27"
+  book        String
+  chapter     Int
+  verse       Int
+  text        String
+  translation String
+  language    String
+  themes      String @default("[]") // JSON array of string
+
+  @@unique([ref, translation])
+  @@index([language, book, chapter])
+  @@index([language])
+}
+
+model CounselorProfile {
+  id              String    @id @default(cuid())
+  userId          String    @unique
+  headline        String
+  bio             String
+  languages       String    @default("[]") // JSON array of language codes
+  specialties     String    @default("[]") // JSON array of Specialty
+  credentials     String // free text, reviewed by a human admin. Never public.
+  organization    String?
+  yearsExperience Int       @default(0)
+  contactEmail    String
+  status          String    @default("PENDING") // PENDING | APPROVED | REJECTED | SUSPENDED
+  reviewNote      String?
+  approvedAt      DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  connections Connection[]
+
+  @@index([status])
+}
+
+model Connection {
+  id                 String   @id @default(cuid())
+  userId             String
+  counselorProfileId String
+  status             String   @default("REQUESTED") // REQUESTED | ACCEPTED | DECLINED | CLOSED
+  topic              String
+  language           String   @default("en")
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  user      User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  counselor CounselorProfile    @relation(fields: [counselorProfileId], references: [id], onDelete: Cascade)
+  messages  ConnectionMessage[]
+
+  @@index([userId, updatedAt])
+  @@index([counselorProfileId, updatedAt])
+}
+
+model ConnectionMessage {
+  id           String   @id @default(cuid())
+  connectionId String
+  senderId     String
+  body         String
+  createdAt    DateTime @default(now())
+
+  connection Connection @relation(fields: [connectionId], references: [id], onDelete: Cascade)
+  sender     User       @relation(fields: [senderId], references: [id], onDelete: Cascade)
+
+  @@index([connectionId, createdAt])
+}

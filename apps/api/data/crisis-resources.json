@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Find a Helpline",
+    "contact": "https://findahelpline.com",
+    "region": "Global",
+    "note": "Free, confidential helplines in over 130 countries. Pick your country on the page."
+  },
+  {
+    "name": "International Association for Suicide Prevention — crisis centre directory",
+    "contact": "https://www.iasp.info/crisis-centres-helplines/",
+    "region": "Global"
+  },
+  {
+    "name": "988 Suicide & Crisis Lifeline",
+    "contact": "Call or text 988",
+    "region": "United States",
+    "note": "24/7. Also chat at 988lifeline.org"
+  },
+  {
+    "name": "Samaritans",
+    "contact": "Call 116 123",
+    "region": "United Kingdom and Ireland",
+    "note": "24/7, free from any phone."
+  },
+  {
+    "name": "Talk Suicide Canada",
+    "contact": "Call or text 988",
+    "region": "Canada"
+  },
+  {
+    "name": "Lifeline Australia",
+    "contact": "Call 13 11 14",
+    "region": "Australia",
+    "note": "24/7 crisis support."
+  },
+  {
+    "name": "Emergency services",
+    "contact": "Call your local emergency number (112 / 911 / 999)",
+    "region": "Global",
+    "note": "If you or someone else is in immediate physical danger."
+  }
+]

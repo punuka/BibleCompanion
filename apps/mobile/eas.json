@@ -1,0 +1,33 @@
+{
+  "cli": {
+    "version": ">= 5.0.0",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "//": "NativeBridge runs the device in ITS cloud, so it cannot reach localhost, 10.0.2.2, or your LAN IP. Put a PUBLIC https URL here before building — see the note in references/emulators.md. EXPO_PUBLIC_* is inlined at build time, so changing it means rebuilding.",
+        "EXPO_PUBLIC_API_URL": "https://replace-me.example.com"
+      }
+    },
+    "production": {
+      "android": {
+        "buildType": "app-bundle"
+      },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://api.your-domain.example"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}
