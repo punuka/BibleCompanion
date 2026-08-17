@@ -1,11 +1,13 @@
 import { useCallback, useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Linking, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { LANGUAGES, type CounselorProfile } from '@bible/shared';
 import { api, API_URL } from '../../src/api/client';
 import { useAuth } from '../../src/state/auth';
 import { Button, Chip, ErrorBanner } from '../../src/components/ui';
 import { theme } from '../../src/theme';
+
+const USER_MANUAL_URL = 'https://claude.ai/code/artifact/56a931c6-8281-4cee-ab1a-fbc947d0da22';
 
 export default function Profile() {
   const { user, t, language, setLanguage, signOut } = useAuth();
@@ -89,6 +91,13 @@ export default function Profile() {
           <Button label="Admin dashboard" variant="ghost" onPress={() => router.push('/admin')} />
         </>
       ) : null}
+
+      <Text style={styles.sectionLabel}>{t.help}</Text>
+      <Button
+        label={t.userManual}
+        variant="ghost"
+        onPress={() => void Linking.openURL(USER_MANUAL_URL)}
+      />
 
       <View style={styles.spacer} />
       <Button label={t.signOut} variant="danger" onPress={() => void signOut()} />

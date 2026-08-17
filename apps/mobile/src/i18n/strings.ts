@@ -69,7 +69,9 @@ export type StringKey =
   | 'stopSpeaking'
   | 'recordVoice'
   | 'stopRecording'
-  | 'micPermissionDenied';
+  | 'micPermissionDenied'
+  | 'help'
+  | 'userManual';
 
 type Dict = Record<StringKey, string>;
 
@@ -137,6 +139,8 @@ const en: Dict = {
   recordVoice: 'Record a voice message',
   stopRecording: 'Stop recording',
   micPermissionDenied: 'Microphone access is needed to record a voice message.',
+  help: 'Help',
+  userManual: 'User manual',
 };
 
 const es: Dict = {
@@ -202,6 +206,8 @@ const es: Dict = {
   recordVoice: 'Grabar un mensaje de voz',
   stopRecording: 'Detener grabación',
   micPermissionDenied: 'Se necesita acceso al micrófono para grabar un mensaje de voz.',
+  help: 'Ayuda',
+  userManual: 'Manual de usuario',
 };
 
 const pt: Dict = {
