@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: bible-companion-api
+    name: biblecompanion
     runtime: docker
     dockerfilePath: ./Dockerfile
     dockerContext: .
