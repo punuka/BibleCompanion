@@ -18,4 +18,8 @@ RUN npx prisma generate --schema apps/api/prisma/schema.prisma
 
 WORKDIR /app/apps/api
 EXPOSE 8787
-CMD ["npm", "run", "start"]
+# db push/seed are idempotent (push only adds missing tables, seed upserts) so
+# it's safe to run them on every boot — the persistent volume has no
+# migration step of its own, so this is what actually creates the schema on
+# first deploy.
+CMD ["sh", "-c", "npm run db:push && npm run db:seed && npm run start"]
