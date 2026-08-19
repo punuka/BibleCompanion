@@ -70,13 +70,16 @@ export async function streamChatTurn(
     const modelParts: Part[] = [];
 
     for await (const chunk of stream) {
-      const text = chunk.text;
-      if (text) {
-        turnText += text;
-        finalText += text;
-        handlers.onDelta(text);
-      }
+      // Read text straight off the parts rather than the SDK's `.text`
+      // convenience getter — that getter logs a console warning whenever a
+      // chunk also carries a functionCall part, which is every turn that
+      // looks up a verse, i.e. most turns. Same data, no noise.
       for (const part of chunk.candidates?.[0]?.content?.parts ?? []) {
+        if (part.text) {
+          turnText += part.text;
+          finalText += part.text;
+          handlers.onDelta(part.text);
+        }
         if (part.functionCall?.name) {
           calls.push({
             id: part.functionCall.id,
