@@ -81,10 +81,12 @@ event: safety    data: {"level":"crisis","resources":[...]}      // only when tr
 event: delta     data: {"text":"Peace be"}                        // repeated
 event: citation  data: {"ref":"John 14:27","text":"...","translation":"WEB"}
 event: done      data: {"messageId":"...","citations":[...]}
-event: error     data: {"message":"..."}
+event: chatError data: {"message":"..."}
 ```
 
 The client must treat `delta` as append-only and must not assume `citation` events arrive before the text that references them.
+
+The error event is deliberately named `chatError`, not `error` — the SSE spec (and libraries like `react-native-sse`) reserve a plain `error` event for transport-level failures with a different shape (`message` but no `data`), so a same-named application event would have its payload silently dropped by client-side EventSource implementations.
 
 ## Environments
 

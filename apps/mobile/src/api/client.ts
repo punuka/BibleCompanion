@@ -1,3 +1,4 @@
+import EventSource from 'react-native-sse';
 import type {
   AdminStats,
   AuthResponse,
@@ -185,101 +186,80 @@ export interface ChatStreamHandlers {
   onError?: (message: string) => void;
 }
 
+type ChatEventType = 'safety' | 'delta' | 'citation' | 'done' | 'chatError';
+
 /**
  * Consumes the SSE stream from POST /chat/conversations/:id/messages.
  *
- * React Native's fetch does not expose a readable body, so this uses
- * XMLHttpRequest, whose `onprogress` gives incremental `responseText` on every
- * platform Expo targets — including Android, where the streaming-fetch story
- * is still inconsistent. Slightly old-fashioned, reliably works everywhere.
+ * Uses react-native-sse rather than hand-rolled XMLHttpRequest parsing:
+ * Android's XHR does not reliably fire `onprogress` per-chunk for chunked
+ * responses without a Content-Length (it can deliver everything in one
+ * `onload`, or in rare cases drop buffered-but-unflushed data entirely),
+ * which showed up as replies that streamed fine against curl but arrived
+ * empty in the app. react-native-sse's native SSE handling doesn't have
+ * that gap on either platform.
  */
 export function streamChatMessage(
   conversationId: string,
   content: string,
   handlers: ChatStreamHandlers,
 ): () => void {
-  const xhr = new XMLHttpRequest();
-  xhr.open('POST', `${API_URL}/v1/chat/conversations/${conversationId}/messages`);
-  xhr.setRequestHeader('Content-Type', 'application/json');
-  if (authToken) xhr.setRequestHeader('Authorization', `Bearer ${authToken}`);
+  const es = new EventSource<ChatEventType>(
+    `${API_URL}/v1/chat/conversations/${conversationId}/messages`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+      },
+      body: JSON.stringify({ content }),
+      // One-shot request tied to a specific message — a dropped connection
+      // should surface as an error, not silently reconnect and resend it.
+      pollingInterval: 0,
+    },
+  );
 
-  // Byte offset of what we have already parsed. onprogress hands back the whole
-  // response each time, so without this every chunk would be re-processed.
-  let consumed = 0;
-  let buffer = '';
-
-  const dispatch = (rawEvent: string): void => {
-    let event = 'message';
-    const dataLines: string[] = [];
-
-    for (const line of rawEvent.split('\n')) {
-      if (line.startsWith('event:')) event = line.slice(6).trim();
-      else if (line.startsWith('data:')) dataLines.push(line.slice(5).trim());
-    }
-    if (dataLines.length === 0) return;
-
-    let data: unknown;
+  function parse<T>(raw: string | null): T | null {
+    if (!raw) return null;
     try {
-      data = JSON.parse(dataLines.join('\n'));
+      return JSON.parse(raw) as T;
     } catch {
-      return;
+      return null;
     }
+  }
 
-    switch (event) {
-      case 'safety':
-        handlers.onSafety?.(data as SafetyNotice);
-        break;
-      case 'delta':
-        handlers.onDelta((data as { text: string }).text);
-        break;
-      case 'citation':
-        handlers.onCitation?.(data as Citation);
-        break;
-      case 'done':
-        handlers.onDone?.(data as { messageId: string; citations: Citation[] });
-        break;
-      case 'error':
-        handlers.onError?.((data as { message: string }).message);
-        break;
-      default:
-        break;
-    }
-  };
-
-  const drain = (): void => {
-    // Events are separated by a blank line. A trailing partial event stays in
-    // the buffer until the rest of it arrives.
-    let boundary = buffer.indexOf('\n\n');
-    while (boundary !== -1) {
-      const rawEvent = buffer.slice(0, boundary);
-      buffer = buffer.slice(boundary + 2);
-      if (rawEvent.trim()) dispatch(rawEvent);
-      boundary = buffer.indexOf('\n\n');
-    }
-  };
-
-  xhr.onprogress = () => {
-    buffer += xhr.responseText.slice(consumed);
-    consumed = xhr.responseText.length;
-    drain();
-  };
-
-  xhr.onload = () => {
-    buffer += xhr.responseText.slice(consumed);
-    consumed = xhr.responseText.length;
-    drain();
-    if (xhr.status >= 400) {
-      handlers.onError?.(`Request failed (${xhr.status}).`);
-    }
-  };
-
-  xhr.onerror = () => {
+  es.addEventListener('safety', (event) => {
+    const data = parse<SafetyNotice>(event.data);
+    if (data) handlers.onSafety?.(data);
+  });
+  es.addEventListener('delta', (event) => {
+    const data = parse<{ text: string }>(event.data);
+    if (data) handlers.onDelta(data.text);
+  });
+  es.addEventListener('citation', (event) => {
+    const data = parse<Citation>(event.data);
+    if (data) handlers.onCitation?.(data);
+  });
+  es.addEventListener('done', (event) => {
+    const data = parse<{ messageId: string; citations: Citation[] }>(event.data);
+    es.close();
+    if (data) handlers.onDone?.(data);
+  });
+  es.addEventListener('chatError', (event) => {
+    es.close();
+    const data = parse<{ message: string }>(event.data);
+    handlers.onError?.(data?.message ?? 'The reply could not be generated.');
+  });
+  // Built-in EventSource error: bad HTTP status, network drop, timeout —
+  // distinct from the app-level `chatError` event above.
+  es.addEventListener('error', (event) => {
+    es.close();
+    const message = 'message' in event ? event.message : undefined;
     handlers.onError?.(
-      `Could not reach the API at ${API_URL}. On an Android emulator use http://10.0.2.2:8787.`,
+      message ||
+        `Could not reach the API at ${API_URL}. On an Android emulator use http://10.0.2.2:8787.`,
     );
-  };
+  });
 
-  xhr.send(JSON.stringify({ content }));
-
-  return () => xhr.abort();
+  return () => es.close();
 }

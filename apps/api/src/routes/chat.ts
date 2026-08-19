@@ -175,7 +175,10 @@ export default async function chatRoutes(app: FastifyInstance) {
       sse(reply, 'done', { messageId: assistantMessage.id, citations: result.citations });
     } catch (err) {
       req.log.error({ err }, 'chat stream failed');
-      sse(reply, 'error', {
+      // Named "chatError", not "error" — SSE/EventSource clients (including
+      // react-native-sse) treat a plain `event: error` as a transport-level
+      // failure and don't expose its `data` payload to app code.
+      sse(reply, 'chatError', {
         message: err instanceof Error ? err.message : 'The reply could not be generated.',
       });
     } finally {
