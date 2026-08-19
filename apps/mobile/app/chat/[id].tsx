@@ -307,9 +307,12 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.assistantBubble,
     borderBottomLeftRadius: theme.radius.sm,
   },
-  bubbleRow: { flexDirection: 'row', alignItems: 'flex-start' },
+  bubbleRow: { flexDirection: 'row', alignItems: 'flex-start', flexShrink: 1 },
   bubbleText: { color: theme.colors.text, fontSize: theme.font.body, lineHeight: 24 },
-  bubbleTextFlex: { flex: 1 },
+  // flexShrink (not flex: 1) — bubbleWrap's width is auto/content-based up to
+  // its maxWidth, and flex: 1's implicit flexBasis: 0% fights that, measuring
+  // the text with ~no width to grow into and wrapping it one word per line.
+  bubbleTextFlex: { flexShrink: 1 },
   pending: { color: theme.colors.textFaint, fontSize: theme.font.body, fontStyle: 'italic' },
   citations: { marginTop: theme.space(3) },
 

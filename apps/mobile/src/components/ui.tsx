@@ -435,14 +435,16 @@ const styles = StyleSheet.create({
     padding: theme.space(4),
     marginBottom: theme.space(3),
   },
-  verseRow: { flexDirection: 'row', alignItems: 'flex-start' },
+  verseRow: { flexDirection: 'row', alignItems: 'flex-start', flexShrink: 1 },
   verseText: {
     color: theme.colors.verse,
     fontSize: theme.font.verse,
     lineHeight: 27,
     fontStyle: 'italic',
   },
-  verseTextFlex: { flex: 1 },
+  // flexShrink (not flex: 1) — see the matching note on bubbleTextFlex in
+  // app/chat/[id].tsx; same trap if this card ever sits in an auto-width parent.
+  verseTextFlex: { flexShrink: 1 },
   verseRef: {
     color: theme.colors.accent,
     fontSize: theme.font.small,
