@@ -1,0 +1,18 @@
+---
+deployment:
+  tasks:
+    # DEPLOYPATH must match the "Repository Path" you set in cPanel's Git
+    # Version Control UI — the same folder used as the Node App's
+    # "Application root" in Setup Node.js App.
+    - export DEPLOYPATH=/home/<cpanel-username>/bible-companion/
+
+    # NODE_BIN must point at the node/npm binaries from the version selected
+    # in Setup Node.js App. Copy the exact path from that page — it looks
+    # like /home/<cpanel-username>/nodevenv/bible-companion/apps/api/20/bin
+    - export NODE_BIN=/home/<cpanel-username>/nodevenv/bible-companion/apps/api/20/bin
+
+    - $NODE_BIN/npm --prefix $DEPLOYPATH install
+    - $NODE_BIN/npm --prefix $DEPLOYPATH run build:shared
+    - $NODE_BIN/npm --prefix $DEPLOYPATH/apps/api run build
+    - cd $DEPLOYPATH/apps/api && $NODE_BIN/npx prisma generate
+    - cd $DEPLOYPATH/apps/api && $NODE_BIN/npx prisma db push
