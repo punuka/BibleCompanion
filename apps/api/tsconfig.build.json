@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "dist",
+    "rootDir": "src",
+    // The base config's `paths` points @bible/shared at its TS source, for
+    // tsx/typecheck convenience. That drags packages/shared/src outside
+    // rootDir during an actual emit — clear it so this resolves through
+    // node_modules to the built @bible/shared dist instead, like any other
+    // workspace dependency.
+    "paths": {}
+  },
+  "include": ["src"]
+}
